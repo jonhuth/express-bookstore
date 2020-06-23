@@ -52,7 +52,9 @@ router.post("/", async function (req, res, next) {
 
 router.put("/:isbn", async function (req, res, next) {
   try {
-    const result = jsonschema.validate(req.body, bookSchema);
+    const toValidate = {isbn: req.params.isbn, ...req.body};
+    
+    const result = jsonschema.validate(toValidate, bookSchema);
 
     if (! result.valid) {
       let listOfErrors = result.errors.map(err => err.stack);
